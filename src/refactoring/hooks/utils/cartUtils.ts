@@ -1,4 +1,4 @@
-import { CartItem, Coupon, Product } from "../../../types";
+import { CartItem, Coupon, Discount, Product } from "../../../types";
 
 //상품 재고
 export const getRemainingStock = (cart: CartItem[], product: Product) => {
@@ -8,24 +8,36 @@ export const getRemainingStock = (cart: CartItem[], product: Product) => {
 
 //장바구니 할인적용 전 총 금액
 export const calculateItemTotal = (item: CartItem) => {
-  let totalBeforeDiscount = 0;
   const { price } = item.product;
   const { quantity } = item;
-  totalBeforeDiscount += price * quantity;
-  return 0;
+
+  const discount = item.product.discounts.reduce((maxDiscount, d) => {
+    return quantity >= d.quantity && d.rate > maxDiscount
+      ? d.rate
+      : maxDiscount;
+  }, 0);
+
+  return price * quantity * (1 - discount);
 };
 
 //갯수에 따른 할인
 export const getMaxApplicableDiscount = (item: CartItem) => {
   const { discounts } = item.product;
   const { quantity } = item;
-  let appliedDiscount = 0;
-  for (const discount of discounts) {
-    if (quantity >= discount.quantity) {
-      appliedDiscount = Math.max(appliedDiscount, discount.rate);
-    }
-  }
+
+  const appliedDiscounts: Discount[] = discounts.filter(
+    (discount) => quantity >= discount.quantity
+  );
+
+  const appliedDiscount: number = getMaxDiscount(appliedDiscounts);
+
   return appliedDiscount;
+};
+
+export const getMaxDiscount = (
+  discounts: { quantity: number; rate: number }[]
+) => {
+  return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
 //갯수할인 + 쿠폰할인 적용된 총금액
@@ -35,16 +47,12 @@ export const calculateCartTotal = (
 ) => {
   let totalBeforeDiscount = 0;
   let totalAfterDiscount = 0;
-  console.log("cart", cart);
   cart.forEach((item) => {
-    console.log("item!!!", item);
     const { price } = item.product;
     const { quantity } = item;
     totalBeforeDiscount += price * quantity;
 
     const discount = item.product.discounts.reduce((maxDiscount, d) => {
-      console.log("d", d);
-      console.log("maxDiscount", maxDiscount);
       return quantity >= d.quantity && d.rate > maxDiscount
         ? d.rate
         : maxDiscount;
@@ -57,7 +65,6 @@ export const calculateCartTotal = (
 
   // 쿠폰 적용
   if (selectedCoupon) {
-    console.log("selected?");
     if (selectedCoupon.discountType === "amount") {
       totalAfterDiscount = Math.max(
         0,
