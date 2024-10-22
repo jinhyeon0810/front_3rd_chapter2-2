@@ -1,6 +1,6 @@
 import { Coupon, Product } from "../../types.ts";
-import CartItemDetails from "./cart/CartItemDetails.tsx";
-import ProductList from "./cart/ProductList.tsx";
+import CartItemDetails from "../components/cart/CartItemDetails.tsx";
+import ProductList from "../components/cart/ProductList.tsx";
 import { useCart } from "../hooks/index.ts";
 import { getMaxApplicableDiscount } from "../hooks/utils/cartUtils.ts";
 
