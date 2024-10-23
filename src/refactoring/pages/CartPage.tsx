@@ -2,7 +2,7 @@ import { Coupon, Product } from "../../types.ts";
 import CartItemDetails from "../components/cart/CartItemDetails.tsx";
 import CartSummary from "../components/cart/CartSummary.tsx";
 import CouponApply from "../components/cart/CouponApply.tsx";
-import ProductList from "../components/cart/ProductList.tsx";
+import ProductList from "../components/cart/product/ProductList.tsx";
 import { useCart } from "../hooks/index.ts";
 import {
   getMaxApplicableDiscount,
