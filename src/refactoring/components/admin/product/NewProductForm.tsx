@@ -1,5 +1,5 @@
 import { Product } from "../../../../types";
-import { useAddProduct } from "../../../hooks/admin/useAddProduct";
+import { useNewProduct } from "../../../hooks/admin/useNewProduct";
 
 interface NewProductFormProps {
   addProduct: (product: Product) => void;
@@ -12,7 +12,7 @@ const NewProductForm = ({ addProduct }: NewProductFormProps) => {
     newProduct,
     setNewProduct,
     handleAddNewProduct,
-  } = useAddProduct(addProduct);
+  } = useNewProduct(addProduct);
 
   return (
     <>

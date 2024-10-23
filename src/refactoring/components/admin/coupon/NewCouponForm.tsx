@@ -1,5 +1,5 @@
 import { Coupon } from "../../../../types";
-import { useAddCoupon } from "../../../hooks/admin/useAddCoupon";
+import { useNewCoupon } from "../../../hooks/admin/useNewCoupon";
 
 interface CouponManageFormProps {
   onCouponAdd: (coupon: Coupon) => void;
@@ -7,7 +7,7 @@ interface CouponManageFormProps {
 
 const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
   const { newCoupon, updateCoupon, handleAddCoupon } =
-    useAddCoupon(onCouponAdd);
+    useNewCoupon(onCouponAdd);
 
   const { name, code, discountType, discountValue } = newCoupon;
 
