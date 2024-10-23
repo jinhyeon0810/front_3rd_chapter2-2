@@ -1,47 +1,35 @@
-import { useState } from "react";
 import { Coupon } from "../../../../types";
+import { useNewCoupon } from "../../../hooks/admin/useNewCoupon";
 
 interface CouponManageFormProps {
   onCouponAdd: (coupon: Coupon) => void;
 }
 
 const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: "",
-    code: "",
-    discountType: "percentage",
-    discountValue: 0,
-  });
+  const { newCoupon, setNewCoupon, handleAddCoupon } =
+    useNewCoupon(onCouponAdd);
 
-  const handleAddCoupon = () => {
-    onCouponAdd(newCoupon);
-    setNewCoupon({
-      name: "",
-      code: "",
-      discountType: "percentage",
-      discountValue: 0,
-    });
-  };
+  const { name, code, discountType, discountValue } = newCoupon;
 
   return (
     <div className="space-y-2 mb-4">
       <input
         type="text"
         placeholder="쿠폰 이름"
-        value={newCoupon.name}
+        value={name}
         onChange={(e) => setNewCoupon({ ...newCoupon, name: e.target.value })}
         className="w-full p-2 border rounded"
       />
       <input
         type="text"
         placeholder="쿠폰 코드"
-        value={newCoupon.code}
+        value={code}
         onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value })}
         className="w-full p-2 border rounded"
       />
       <div className="flex gap-2">
         <select
-          value={newCoupon.discountType}
+          value={discountType}
           onChange={(e) =>
             setNewCoupon({
               ...newCoupon,
@@ -56,7 +44,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
         <input
           type="number"
           placeholder="할인 값"
-          value={newCoupon.discountValue}
+          value={discountValue}
           onChange={(e) =>
             setNewCoupon({
               ...newCoupon,
