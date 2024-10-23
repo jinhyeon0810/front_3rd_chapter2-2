@@ -24,7 +24,7 @@ export const AdminPage = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4">상품 관리</h2>
-          <NewProductForm onProductAdd={onProductAdd} />
+          <NewProductForm addProduct={onProductAdd} />
 
           <div className="space-y-2">
             {products.map((product, index) => (

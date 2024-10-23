@@ -2,17 +2,17 @@ import { Product } from "../../../../types";
 import { useNewProduct } from "../../../hooks/admin/useNewProduct";
 
 interface NewProductFormProps {
-  onProductAdd: (product: Product) => void;
+  addProduct: (product: Product) => void;
 }
 
-const NewProductForm = ({ onProductAdd }: NewProductFormProps) => {
+const NewProductForm = ({ addProduct }: NewProductFormProps) => {
   const {
     showNewProductForm,
     setShowNewProductForm,
     newProduct,
     setNewProduct,
     handleAddNewProduct,
-  } = useNewProduct(onProductAdd);
+  } = useNewProduct(addProduct);
 
   return (
     <>
