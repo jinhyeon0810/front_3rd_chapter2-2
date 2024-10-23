@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Coupon } from "../../../types";
 
 const initCouponState: Coupon = {
@@ -21,9 +21,16 @@ export const useNewCoupon = (onCouponAdd: (coupon: Coupon) => void) => {
     setNewCoupon(newCoupon);
   };
 
+  const handleUpdateCoupon = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    updateCoupon({ ...newCoupon, [name]: value });
+  };
+
   return {
     newCoupon,
-    updateCoupon,
     handleAddCoupon,
+    handleUpdateCoupon,
   };
 };

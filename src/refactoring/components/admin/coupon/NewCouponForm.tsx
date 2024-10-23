@@ -6,7 +6,7 @@ interface CouponManageFormProps {
 }
 
 const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
-  const { newCoupon, updateCoupon, handleAddCoupon } =
+  const { newCoupon, handleAddCoupon, handleUpdateCoupon } =
     useNewCoupon(onCouponAdd);
 
   const { name, code, discountType, discountValue } = newCoupon;
@@ -17,25 +17,20 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
         type="text"
         placeholder="쿠폰 이름"
         value={name}
-        onChange={(e) => updateCoupon({ ...newCoupon, name: e.target.value })}
+        onChange={handleUpdateCoupon}
         className="w-full p-2 border rounded"
       />
       <input
         type="text"
         placeholder="쿠폰 코드"
         value={code}
-        onChange={(e) => updateCoupon({ ...newCoupon, code: e.target.value })}
+        onChange={handleUpdateCoupon}
         className="w-full p-2 border rounded"
       />
       <div className="flex gap-2">
         <select
           value={discountType}
-          onChange={(e) =>
-            updateCoupon({
-              ...newCoupon,
-              discountType: e.target.value as "amount" | "percentage",
-            })
-          }
+          onChange={handleUpdateCoupon}
           className="w-full p-2 border rounded"
         >
           <option value="amount">금액(원)</option>
@@ -45,12 +40,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
           type="number"
           placeholder="할인 값"
           value={discountValue}
-          onChange={(e) =>
-            updateCoupon({
-              ...newCoupon,
-              discountValue: parseInt(e.target.value),
-            })
-          }
+          onChange={handleUpdateCoupon}
           className="w-full p-2 border rounded"
         />
       </div>
