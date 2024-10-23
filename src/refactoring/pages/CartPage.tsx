@@ -4,7 +4,10 @@ import CartSummary from "../components/cart/CartSummary.tsx";
 import CouponApply from "../components/cart/CouponApply.tsx";
 import ProductList from "../components/cart/ProductList.tsx";
 import { useCart } from "../hooks/index.ts";
-import { getMaxApplicableDiscount } from "../hooks/utils/cartUtils.ts";
+import {
+  getMaxApplicableDiscount,
+  getRemainingStock,
+} from "../hooks/utils/cartUtils.ts";
 
 interface Props {
   products: Product[];
@@ -22,11 +25,6 @@ export const CartPage = ({ products, coupons }: Props) => {
     selectedCoupon,
   } = useCart();
 
-  const getRemainingStock = (product: Product) => {
-    const cartItem = cart.find((item) => item.product.id === product.id);
-    return product.stock - (cartItem?.quantity || 0);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">장바구니</h1>
@@ -35,12 +33,11 @@ export const CartPage = ({ products, coupons }: Props) => {
           <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
           <div className="space-y-2">
             {products.map((product) => {
-              const remainingStock = getRemainingStock(product);
               return (
                 <ProductList
                   key={product.id}
                   product={product}
-                  remainingStock={remainingStock}
+                  remainingStock={getRemainingStock(cart, product)}
                   addToCart={addToCart}
                 />
               );
@@ -52,14 +49,13 @@ export const CartPage = ({ products, coupons }: Props) => {
 
           <div className="space-y-2">
             {cart.map((item) => {
-              const appliedDiscount = getMaxApplicableDiscount(item);
               return (
                 <CartItemDetails
                   key={item.product.id}
                   item={item}
                   updateQuantity={updateQuantity}
                   removeFromCart={removeFromCart}
-                  appliedDiscount={appliedDiscount}
+                  appliedDiscount={getMaxApplicableDiscount(item)}
                 />
               );
             })}
