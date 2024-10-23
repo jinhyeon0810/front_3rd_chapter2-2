@@ -1,5 +1,6 @@
 import { Coupon, Product } from "../../types.ts";
 import CartItemDetails from "../components/cart/CartItemDetails.tsx";
+import CartSummary from "../components/cart/CartSummary.tsx";
 import CouponApply from "../components/cart/CouponApply.tsx";
 import ProductList from "../components/cart/ProductList.tsx";
 import { useCart } from "../hooks/index.ts";
@@ -20,9 +21,6 @@ export const CartPage = ({ products, coupons }: Props) => {
     calculateTotal,
     selectedCoupon,
   } = useCart();
-
-  const { totalBeforeDiscount, totalAfterDiscount, totalDiscount } =
-    calculateTotal();
 
   const getRemainingStock = (product: Product) => {
     const cartItem = cart.find((item) => item.product.id === product.id);
@@ -73,18 +71,7 @@ export const CartPage = ({ products, coupons }: Props) => {
             selectedCoupon={selectedCoupon}
           />
 
-          <div className="mt-6 bg-white p-4 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-2">주문 요약</h2>
-            <div className="space-y-1">
-              <p>상품 금액: {totalBeforeDiscount.toLocaleString()}원</p>
-              <p className="text-green-600">
-                할인 금액: {totalDiscount.toLocaleString()}원
-              </p>
-              <p className="text-xl font-bold">
-                최종 결제 금액: {totalAfterDiscount.toLocaleString()}원
-              </p>
-            </div>
-          </div>
+          <CartSummary totalPrices={calculateTotal()} />
         </div>
       </div>
     </div>
