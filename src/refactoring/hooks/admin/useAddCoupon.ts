@@ -9,7 +9,7 @@ const initCouponState: Coupon = {
 };
 
 //신규 쿠폰 추가
-export const useNewCoupon = (onCouponAdd: (coupon: Coupon) => void) => {
+export const useAddCoupon = (onCouponAdd: (coupon: Coupon) => void) => {
   const [newCoupon, setNewCoupon] = useState<Coupon>(initCouponState);
 
   const handleAddCoupon = () => {

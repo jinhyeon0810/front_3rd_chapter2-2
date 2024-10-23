@@ -7,7 +7,7 @@ const initProductState = {
   stock: 0,
   discounts: [],
 };
-export const useNewProduct = (onProductAdd: (product: Product) => void) => {
+export const useAddProduct = (onProductAdd: (product: Product) => void) => {
   const [showNewProductForm, setShowNewProductForm] = useState(false);
   const [newProduct, setNewProduct] =
     useState<Omit<Product, "id">>(initProductState);
