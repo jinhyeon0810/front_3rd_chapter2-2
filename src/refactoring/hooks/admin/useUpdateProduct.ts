@@ -1,24 +1,12 @@
 import { useState } from "react";
 import { Discount, Product } from "../../../types";
+import { formatProductEditingValue } from "../../service/product";
+import { findProductById } from "../../service/admin";
 
 export const useUpdateProduct = (
   products: Product[],
   onProductUpdate: (updatedProduct: Product) => void
 ) => {
-  //-------------상품 정보 토글-------------
-  const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
-  const toggleProductAccordion = (productId: string) => {
-    setOpenProductIds((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(productId)) {
-        newSet.delete(productId);
-      } else {
-        newSet.add(productId);
-      }
-      return newSet;
-    });
-  };
-
   //-------------상품 정보 수정-------------
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -36,7 +24,7 @@ export const useUpdateProduct = (
     const { name, value } = event.target;
     const updatedProduct = {
       ...editingProduct,
-      [name]: name === "name" ? value : parseInt(value),
+      [name]: formatProductEditingValue(name, value),
     };
     setEditingProduct(updatedProduct);
   };
@@ -55,7 +43,7 @@ export const useUpdateProduct = (
   });
 
   const handleAddDiscount = (productId: string) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+    const updatedProduct = findProductById(products, productId);
     if (updatedProduct && editingProduct) {
       const newProduct = {
         ...updatedProduct,
@@ -67,8 +55,12 @@ export const useUpdateProduct = (
     }
   };
 
-  const handleRemoveDiscount = (productId: string, index: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
+  const handleRemoveDiscount = (
+    products: Product[],
+    productId: string,
+    index: number
+  ) => {
+    const updatedProduct = findProductById(products, productId);
     if (updatedProduct) {
       const newProduct = {
         ...updatedProduct,
@@ -80,9 +72,6 @@ export const useUpdateProduct = (
   };
 
   return {
-    openProductIds,
-    toggleProductAccordion,
-
     editingProduct,
     handleEditProduct,
     handleEditingProduct,
