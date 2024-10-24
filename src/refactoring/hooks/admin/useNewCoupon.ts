@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { Coupon } from "../../../types";
 
 const initCouponState: Coupon = {
@@ -9,28 +9,20 @@ const initCouponState: Coupon = {
 };
 
 //신규 쿠폰 추가
-export const useNewCoupon = (onCouponAdd: (coupon: Coupon) => void) => {
+export const useNewCoupon = () => {
   const [newCoupon, setNewCoupon] = useState<Coupon>(initCouponState);
-
-  const handleAddCoupon = () => {
-    onCouponAdd(newCoupon);
-    setNewCoupon(initCouponState);
-  };
 
   const updateCoupon = (newCoupon: Coupon) => {
     setNewCoupon(newCoupon);
   };
 
-  const handleUpdateCoupon = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    updateCoupon({ ...newCoupon, [name]: value });
+  const initCoupon = () => {
+    setNewCoupon(initCouponState);
   };
 
   return {
     newCoupon,
-    handleAddCoupon,
-    handleUpdateCoupon,
+    updateCoupon,
+    initCoupon,
   };
 };
