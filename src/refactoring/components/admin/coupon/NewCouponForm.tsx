@@ -15,6 +15,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
     <div className="space-y-2 mb-4">
       <input
         type="text"
+        name="name"
         placeholder="쿠폰 이름"
         value={name}
         onChange={handleUpdateCoupon}
@@ -23,6 +24,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
       <input
         type="text"
         placeholder="쿠폰 코드"
+        name="code"
         value={code}
         onChange={handleUpdateCoupon}
         className="w-full p-2 border rounded"
@@ -30,6 +32,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
       <div className="flex gap-2">
         <select
           value={discountType}
+          name="discountType"
           onChange={handleUpdateCoupon}
           className="w-full p-2 border rounded"
         >
@@ -38,6 +41,7 @@ const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
         </select>
         <input
           type="number"
+          name="discountValue"
           placeholder="할인 값"
           value={discountValue}
           onChange={handleUpdateCoupon}
