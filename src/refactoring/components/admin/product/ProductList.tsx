@@ -1,24 +1,24 @@
 import { Product } from "../../../../types";
+import { useToggleProductAccordion } from "../../../hooks/admin/useToggleProductAccordion";
 import { useUpdateProduct } from "../../../hooks/admin/useUpdateProduct";
 
 interface ProductListProps {
   products: Product[];
   product: Product;
   index: number;
-  onProductUpdate: (updatedProduct: Product) => void;
+  updateProduct: (updatedProduct: Product) => void;
 }
 
 const ProductList = ({
   products,
   product,
   index,
-  onProductUpdate,
+  updateProduct,
 }: ProductListProps) => {
-  const {
-    //상품 정보 토글
-    openProductIds,
-    toggleProductAccordion,
+  const { openProductIds, toggleProductAccordion } =
+    useToggleProductAccordion();
 
+  const {
     //상품 정보 수정
     editingProduct,
     handleEditProduct,
@@ -30,7 +30,7 @@ const ProductList = ({
     setNewDiscount,
     handleAddDiscount,
     handleRemoveDiscount,
-  } = useUpdateProduct(products, onProductUpdate);
+  } = useUpdateProduct(products, updateProduct);
 
   return (
     <div
@@ -92,7 +92,9 @@ const ProductList = ({
                       할인
                     </span>
                     <button
-                      onClick={() => handleRemoveDiscount(product.id, index)}
+                      onClick={() =>
+                        handleRemoveDiscount(products, product.id, index)
+                      }
                       className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                     >
                       삭제

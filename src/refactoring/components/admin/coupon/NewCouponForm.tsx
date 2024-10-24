@@ -1,13 +1,25 @@
+import { ChangeEvent } from "react";
 import { Coupon } from "../../../../types";
 import { useNewCoupon } from "../../../hooks/admin/useNewCoupon";
 
 interface CouponManageFormProps {
-  onCouponAdd: (coupon: Coupon) => void;
+  addCoupon: (coupon: Coupon) => void;
 }
 
-const NewCouponForm = ({ onCouponAdd }: CouponManageFormProps) => {
-  const { newCoupon, handleAddCoupon, handleUpdateCoupon } =
-    useNewCoupon(onCouponAdd);
+const NewCouponForm = ({ addCoupon }: CouponManageFormProps) => {
+  const { newCoupon, updateCoupon, initCoupon } = useNewCoupon();
+
+  const handleAddCoupon = () => {
+    addCoupon(newCoupon);
+    initCoupon();
+  };
+
+  const handleUpdateCoupon = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    updateCoupon({ ...newCoupon, [name]: value });
+  };
 
   const { name, code, discountType, discountValue } = newCoupon;
 
